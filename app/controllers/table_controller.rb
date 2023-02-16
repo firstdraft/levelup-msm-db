@@ -42,6 +42,10 @@ class TableController < ApplicationController
   private
 
   def set_columns
-    @columns = @table.columns.map(&:name)
+    @columns = @table.columns.map(&:name).excluding(columns_to_exclude)
+  end
+
+  def columns_to_exclude
+    params[:exclude] || []
   end
 end
