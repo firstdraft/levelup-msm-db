@@ -1,24 +1,47 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Has an API that returns the records in a table.
 
-Things you may want to cover:
+For example:
 
-* Ruby version
+visiting `/table/movies.json`
 
-* System dependencies
+returns:
 
-* Configuration
+```json
+[
+  {
+    "id": 1,
+    "title": "The Shawshank Redemption",
+    "year": 1994,
+    "duration": 142,
+    "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+    "image": "http://ia.media-imdb.com/images/M/MV5BMTc3NjM4MTY3MV5BMl5BanBnXkFtZTcwODk4Mzg3OA@@._V1_SY317_CR4,0,214,317_.jpg",
+    "director_id": 1,
+    "created_at": "2023-01-24T21:43:48.123Z",
+    "updated_at": "2023-01-24T21:43:48.123Z"
+  },
+  ...
+]
+```
 
-* Database creation
+You can exclude which columns are returned by adding a query string (exclude) with an Array of values:
 
-* Database initialization
+Visiting `/table/movies.json?exclude[]=director_id&exclude[]=year`
 
-* How to run the test suite
+Returns:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```json
+[
+  {
+    "id": 1,
+    "title": "The Shawshank Redemption",
+    "duration": 142,
+    "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+    "image": "http://ia.media-imdb.com/images/M/MV5BMTc3NjM4MTY3MV5BMl5BanBnXkFtZTcwODk4Mzg3OA@@._V1_SY317_CR4,0,214,317_.jpg",
+    "created_at": "2023-01-24T21:43:48.123Z",
+    "updated_at": "2023-01-24T21:43:48.123Z"
+  },
+  ...
+]
+```
