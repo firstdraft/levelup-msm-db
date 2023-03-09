@@ -1,42 +1,25 @@
 class TableController < ApplicationController
-  def movies
-    @records = Movie.all.paginate(page: params[:page], per_page: 8)
-    @table = Movie
+
+  def show
+    table_name = params[:name]
+    model_class = table_name.classify.constantize
+    @records = model_class.all.paginate(page: params[:page], per_page: 8)
+    @table = model_class
     set_columns
     respond_to do |format|
-      format.html
+      format.html { render table_name }
       format.json { render "index" }
     end
   end
-  
-  def directors
-    @records = Director.all.paginate(page: params[:page], per_page: 8)
-    @table = Director
-    set_columns
-    respond_to do |format|
-      format.html
-      format.json { render "index" }
+
+  def structure
+    table_name = params[:name]
+    model_class = table_name.classify.constantize
+    model_hash = {}
+    model_class.columns.each do |column|
+      model_hash[column.name] = column.type.to_s
     end
-  end
-  
-  def actors
-    @records = Actor.all.paginate(page: params[:page], per_page: 8)
-    @table = Actor
-    set_columns
-    respond_to do |format|
-      format.html
-      format.json { render "index" }
-    end
-  end
-  
-  def characters
-    @records = Character.all.paginate(page: params[:page], per_page: 8)
-    @table = Character
-    set_columns
-    respond_to do |format|
-      format.html
-      format.json { render "index" }
-    end
+    render json: model_hash.to_json
   end
 
   private
