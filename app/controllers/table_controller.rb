@@ -1,5 +1,4 @@
 class TableController < ApplicationController
-
   def show
     table_name = params[:name]
     model_class = table_name.classify.constantize
@@ -17,7 +16,9 @@ class TableController < ApplicationController
     model_class = table_name.classify.constantize
     model_hash = {}
     model_class.columns.each do |column|
-      model_hash[column.name] = column.type.to_s
+      if columns_to_exclude.exclude?(column.name)
+        model_hash[column.name] = column.type.to_s
+      end
     end
     render json: model_hash.to_json
   end
